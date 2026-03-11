@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Librarian Dashboard • Library System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
+            colors: { navy: "#0b1f3b" }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-slate-50 font-sans text-slate-900">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto container-max px-4 py-4 flex items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-navy text-white grid place-items-center font-bold">
+            L
+          </div>
+          <div>
+            <div class="font-semibold leading-tight">Saviour School Library System</div>
+            <div class="text-xs text-slate-500">Librarian Dashboard</div>
+          </div>
+        </a>
+        <nav class="flex items-center gap-3 text-sm font-medium">
+          <span id="userLabel" class="text-slate-600"></span>
+          <button
+            id="logoutBtn"
+            class="rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100"
+            type="button"
+          >
+            Logout
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto container-max px-4 py-10 space-y-6">
+      <section class="rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+        <h1 class="text-2xl font-bold tracking-tight">Librarian dashboard</h1>
+        <p class="mt-2 text-sm text-slate-600">
+          Overview of the library collection and activity.
+        </p>
+        <div class="mt-6 grid gap-4 md:grid-cols-3 text-sm">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div class="text-xs font-semibold text-slate-500">Total books</div>
+            <div id="statTotalBooks" class="mt-2 text-2xl font-bold text-slate-900">—</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div class="text-xs font-semibold text-slate-500">Available</div>
+            <div id="statAvailableBooks" class="mt-2 text-2xl font-bold text-emerald-700">—</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div class="text-xs font-semibold text-slate-500">Borrowed</div>
+            <div id="statBorrowedBooks" class="mt-2 text-2xl font-bold text-amber-700">—</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-semibold">Latest acquisitions</h2>
+            <p class="mt-1 text-xs text-slate-500">
+              Recently added books in the collection.
+            </p>
+          </div>
+          <a
+            href="/admin/manage-books.html"
+            class="text-xs font-semibold text-navy hover:underline"
+            >Manage books →</a
+          >
+        </div>
+        <div
+          id="dashLatestGrid"
+          class="mt-4 grid gap-3 md:grid-cols-2 text-xs"
+        ></div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { apiFetch, toast, formatDate } from "/js/utils.js";
+
+      async function init() {
+        try {
+          const me = await apiFetch("/api/admin/me");
+          const el = document.getElementById("userLabel");
+          if (el) el.textContent = `Signed in as ${me.username}`;
+
+          const summary = await apiFetch("/api/admin/reports/summary");
+          document.getElementById("statTotalBooks").textContent = summary.totalBooks;
+          document.getElementById("statAvailableBooks").textContent =
+            summary.totalAvailableBooks;
+          document.getElementById("statBorrowedBooks").textContent =
+            summary.totalBorrowedBooks;
+
+          const grid = document.getElementById("dashLatestGrid");
+          grid.innerHTML = summary.latestAcquisitions
+            .map(
+              (b) => `
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+              <div class="text-[13px] font-semibold text-slate-900 line-clamp-2">${b.title}</div>
+              <div class="mt-1 text-[11px] text-slate-600 line-clamp-1">${b.author || ""}</div>
+              <div class="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                <span>${b.category || ""}</span>
+                <span>${formatDate(b.date_acquired || b.created_at)}</span>
+              </div>
+            </div>`
+            )
+            .join("");
+        } catch {
+          window.location.href = "/admin/login.html";
+        }
+      }
+
+      document.getElementById("logoutBtn").addEventListener("click", async () => {
+        try {
+          await apiFetch("/api/admin/logout", { method: "POST" });
+          toast("You have been logged out.", "success");
+          window.location.href = "/admin/login.html";
+        } catch (err) {
+          toast(err.message, "error");
+        }
+      });
+
+      init();
+    </script>
+  </body>
+</html>
