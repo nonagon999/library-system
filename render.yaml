@@ -1,0 +1,16 @@
+# Render Blueprint - deploy from GitHub
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: library-system
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: SESSION_SECRET
+        generateValue: true
+      # Set PUBLIC_BASE_URL in Render Dashboard to your live URL after first deploy
+      # e.g. https://library-system-xxxx.onrender.com
