@@ -7,7 +7,7 @@ const multer = require("multer");
 const { parse } = require("csv-parse");
 const QRCode = require("qrcode");
 
-const { initDb } = require("./server/database");
+const { initDb } = require("./server/database.js");
 
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || "dev-only-change-me";
@@ -17,7 +17,7 @@ const PUBLIC_BASE_URL =
 const app = express();
 const db = initDb();
 
-const uploadsDir = path.join(__dirname, "..", "uploads");
+const uploadsDir = path.join(__dirname, "uploads");
 fs.mkdirSync(uploadsDir, { recursive: true });
 
 app.use(express.json({ limit: "2mb" }));
