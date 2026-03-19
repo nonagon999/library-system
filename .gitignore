@@ -2,6 +2,9 @@ node_modules/
 uploads/*
 !uploads/.gitkeep
 database/library.db
+database/*.db-wal
+database/*.db-shm
+database/*.db-journal
 .env
 npm-debug.log*
 yarn.lock
