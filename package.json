@@ -1,13 +1,13 @@
 {
   "name": "library-system",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": "20.x"
   },
   "keywords": [],
   "author": "",
