@@ -7,11 +7,13 @@ const multer = require("multer");
 const { parse } = require("csv-parse");
 const QRCode = require("qrcode");
 
-const { initDb } = require("./database");
+const { initDb } = require("./server/database");
 
 const PORT = Number(process.env.PORT || 3000);
 const SESSION_SECRET = process.env.SESSION_SECRET || "dev-only-change-me";
-const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`;
+const PUBLIC_BASE_URL =
+  process.env.PUBLIC_BASE_URL ||
+  `https://${process.env.RENDER_EXTERNAL_HOSTNAME}`;
 
 const app = express();
 const db = initDb();
@@ -34,7 +36,11 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 function requireAdmin(req, res, next) {
   if (req.session && req.session.adminUserId) return next();
