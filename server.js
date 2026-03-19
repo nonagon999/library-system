@@ -9,12 +9,11 @@ const QRCode = require("qrcode");
 
 const { initDb } = require("./server/database");
 
-const PORT = Number(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || "dev-only-change-me";
 const PUBLIC_BASE_URL =
   process.env.PUBLIC_BASE_URL ||
-  `https://${process.env.RENDER_EXTERNAL_HOSTNAME}`;
-
+  (process.env.RENDER_EXTERNAL_HOSTNAME ? `https://${process.env.RENDER_EXTERNAL_HOSTNAME}` : `http://localhost:${PORT}`);
 const app = express();
 const db = initDb();
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 uploads/*
 !uploads/.gitkeep
@@ -9,3 +10,13 @@ database/*.db-journal
 npm-debug.log*
 yarn.lock
 pnpm-lock.yaml
+=======
+node_modules/
+uploads/*
+!uploads/.gitkeep
+database/library.db
+.env
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+>>>>>>> 1393823 (Initial commit)
