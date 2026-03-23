@@ -14,7 +14,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET || "dev-only-change-me";
 const PUBLIC_BASE_URL =
   process.env.PUBLIC_BASE_URL ||
   (process.env.RENDER_EXTERNAL_HOSTNAME
-    ? `https://${process.env.RENDER_EXTERNAL_HOSTNAME}`
+    ? `https://library-system-1-53fu.onrender.com`
     : `http://localhost:${PORT}`);
 
 const app = express();
