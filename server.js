@@ -7,7 +7,7 @@ const multer = require("multer");
 const { parse } = require("csv-parse");
 const QRCode = require("qrcode");
 
-const { initDb } = require("./server/database.js");
+const { initDb } = require("./database.js");
 
 const PORT = Number(process.env.PORT || 3000);
 const SESSION_SECRET = process.env.SESSION_SECRET || "dev-only-change-me";
