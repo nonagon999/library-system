@@ -106,10 +106,17 @@ git push -u origin main
 
 ## Quick reference: environment variables
 
-| Variable           | Required | Description |
-|--------------------|----------|-------------|
-| `PORT`             | No       | Set by the host (Render, Railway, Fly). |
-| `SESSION_SECRET`   | Yes (prod) | Long random string for session cookies. |
-| `PUBLIC_BASE_URL`  | Yes (prod) | Full public URL (e.g. `https://library.yourschool.edu`) for QR codes and links. |
+| Variable                      | Required | Description |
+|-------------------------------|----------|-------------|
+| `PORT`                        | No       | Set by the host (Render, Railway, Fly). |
+| `SESSION_SECRET`              | Yes (prod) | Long random string for session cookies. |
+| `PUBLIC_BASE_URL`             | Yes (prod) | Full public URL (e.g. `https://library.yourschool.edu`) for QR codes and links. |
+| `SUPABASE_URL`                | Yes       | Your Supabase project URL. |
+| `SUPABASE_SERVICE_ROLE_KEY`   | Yes (recommended) | Server-side key for backend API access on Render. |
+| `SUPABASE_ANON_KEY`           | Optional fallback | Used only if service role key is not set. |
 
 Your app is already configured to use these; just set them in the host’s dashboard or via CLI.
+
+### Supabase RLS quick fix
+
+If your API returns empty data or permission errors after deploy, run `supabase-policies.sql` in Supabase SQL Editor.
