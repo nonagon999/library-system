@@ -1,8 +1,9 @@
+/* LIGHTER UNIVERSITY COLORS */
 :root {
-  --navy: #0b1f3b;      /* deep academic blue */
-  --navy-light: #1e3a8a;
-  --gold: #c9a227;      /* university gold */
-  --gold-light: #f4d03f;
+  --navy: #2f5fa7;        /* lighter academic blue */
+  --navy-light: #3b82f6;
+  --gold: #e6c75a;        /* softer gold */
+  --gold-light: #f5e6a3;
 }
 
 html,
@@ -19,15 +20,20 @@ body {
   max-width: 1200px;
 }
 
-/* HERO SECTION WITH LIBRARY IMAGE */
+/* HERO SECTION FIX (IMPORTANT) */
 .hero-bg {
   background-image: linear-gradient(
-      rgba(11, 31, 59, 0.9),
-      rgba(201, 162, 39, 0.75)
+      rgba(47, 95, 167, 0.65),   /* lighter blue overlay */
+      rgba(230, 199, 90, 0.55)   /* lighter gold overlay */
     ),
     url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f");
   background-size: cover;
   background-position: center;
+  min-height: 400px; /* adjust this value if you want taller */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
 /* HERO ANIMATION */
